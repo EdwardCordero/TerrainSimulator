@@ -1,0 +1,10 @@
+#pragma once
+
+enum Limit
+{
+	TOP_BORDER,
+	RIGHT_BORDER,
+	BOTTOM_BORDER,
+	LEFT_BORDER,
+	NO_BORDER
+};

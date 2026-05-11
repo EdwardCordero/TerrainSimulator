@@ -1,0 +1,15 @@
+{
+    "Images":[
+        {"DefenderEnemy": ".\\Enemy\\Alien.png"},
+        {"Asteroid": ".\\Enviornment\\Asteroid.png"},
+        {"SpaceInvadersBase": ".\\Enviornment\\Base.png"},
+        {"Bullet": ".\\Player\\Bullet.png"},
+        {"AsteroidPlayer": ".\\Player\\Player.png"}
+    ],
+    "SpriteSheet":[
+        {"DefenderPlayerSheet": ".\\SpriteSheets\\Player_Sprite_Sheet.png"}
+    ],
+    "Fonts":[
+        {"heavydata": ".\\Fonts\\heavy_data.ttf"}
+    ]
+}
