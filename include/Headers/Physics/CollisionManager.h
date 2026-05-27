@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <SDL.h>
+#include <memory>
 
 class CollisionManager
 {

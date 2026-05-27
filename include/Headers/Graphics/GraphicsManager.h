@@ -3,6 +3,7 @@
 #include "Physics\RigidBody.h"
 #include "Graphics\Texture.h"
 #include "Graphics\TextObject.h"
+#include "Graphics\Shapes.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <memory>
@@ -38,6 +39,8 @@ class GraphicsManager
 		void renderTextureEx(std::shared_ptr<Texture> texture, const SDL_Rect* srcQuad, const SDL_FRect* renderQuad, float rotateDeg, SDL_RendererFlip flip);
 		void renderDrawPoint(int x, int y, SDL_Color color);
 		void renderFillRect(const SDL_Rect* rect, SDL_Color fillColor);
+		void renderFillCircle(std::shared_ptr<Circle> circle);
+		void renderDrawPoints(SDL_Point* points, int size);
 		void scaleRect(SDL_FRect& renderQuad);
 		void scaleRect(SDL_Rect& renderQuad);
 
@@ -49,6 +52,7 @@ class GraphicsManager
 		void cacheTexture(std::string textureName);
 
 		SDL_Rect getScreenRect();
+		SDL_Rect getWindowRect();
 		TTF_Font* getFont(std::string fontName);
 		TTF_Font* getDefaultFont();
 		std::string getTexturePath(std::string textureName);

@@ -7,7 +7,6 @@
 #include "GameLogic\InputHandler.h"
 #include "Settings\SettingsManager.h"
 #include "Graphics\GraphicsManager.h"
-#include "Scenes\GameSelectScene.h"
 #include "Scenes\PauseMenuScene.h"
 #include "Utils\Stopwatch.h"
 #include <memory>
@@ -28,7 +27,7 @@ class SceneManager {
 		bool isRunning();
 		void setRunning(bool isRunning);
 		std::shared_ptr<Stopwatch> getGameTime();
-		void changeToGameSelectScene();
+		void changeToDefaultScene();
 		void resumePrevScene();
 
 		std::vector<std::shared_ptr<Scene>> getActiveScenes();
@@ -43,7 +42,7 @@ class SceneManager {
 
 		std::shared_ptr<Scene> getPrevScene();
 		std::shared_ptr<Scene> getCurrentScene();
-		std::shared_ptr<GameSelectScene> getGameSelectScene();
+		std::shared_ptr<Scene> getDefaultScene();
 		void initalizeScene(bool isActive, std::string sceneName);
 	private:
 		std::shared_ptr<CollisionManager> collisionManager;
@@ -55,7 +54,7 @@ class SceneManager {
 		std::shared_ptr<Scene> currentScene;
 		std::shared_ptr<Scene> prevScene;
 		std::shared_ptr<Scene> gameplayScene;
-		std::shared_ptr<GameSelectScene> gameSelectScene;
+		std::shared_ptr<Scene> defaultScene;
 		std::shared_ptr<PauseMenuScene> pauseMenuScene;
 
 		bool isPaused;

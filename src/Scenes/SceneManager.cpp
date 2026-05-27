@@ -2,9 +2,11 @@
 #include "Scenes\OptionsScene.h"
 #include "Scenes\LeaderboardScene.h"
 #include "Scenes\SceneManager.h"
+#include "Scenes\AsteroidsScene.h"
 #include "Physics\CollisionManager.h"
 #include "Factories\EnemyFactory.h"
 #include "Utils\Stopwatch.h"
+#include "Scenes\SimulatorScene.h"
 #include <memory>
 
 SceneManager::SceneManager() : currentScene(nullptr) {
@@ -12,7 +14,8 @@ SceneManager::SceneManager() : currentScene(nullptr) {
 	this->inputHandler = nullptr;
 	this->currentScene = nullptr;
 	this->graphicsManager = nullptr;
-	this->gameSelectScene = nullptr;
+	this->defaultScene = nullptr;
+	
 	this->prevScene = nullptr;
 	this->gameTime = std::make_shared<Stopwatch>();
 	this->isPaused = false;
@@ -39,14 +42,17 @@ void SceneManager::initalize(std::shared_ptr<SceneManager> self, std::shared_ptr
 
 	this->inputHandler = std::make_shared<InputHandler>();
 
-
 	this->pauseMenuScene = std::make_shared<PauseMenuScene>(self, "PauseMenu");
 	this->addScene(this->pauseMenuScene);
 	this->pauseMenuScene->initialize();
 
-	this->gameSelectScene = make_shared<GameSelectScene>(self, "GameSelectScene");
-	this->addScene(this->gameSelectScene);
-	this->changeScene(this->gameSelectScene);
+	this->defaultScene = make_shared<SimulatorScene>(self, "SimulatorScene");
+	//this->defaultScene = make_shared<AsteroidsScene>(self, "AsteroidsScene");
+	this->startGameTime();
+	this->addScene(this->defaultScene);
+
+	this->changeScene(this->defaultScene);
+	this->addGameplayScene(this->defaultScene);
 	this->prevScene = this->currentScene;
 }
 
@@ -238,9 +244,9 @@ std::shared_ptr<Stopwatch> SceneManager::getGameTime()
 	return this->gameTime;
 }
 
-void SceneManager::changeToGameSelectScene()
+void SceneManager::changeToDefaultScene()
 {
-	this->changeScene(this->gameSelectScene);
+	this->changeScene(this->defaultScene);
 	if (this->pauseMenuScene->isActive())
 	{
 		this->pauseMenuScene->hide();
@@ -266,9 +272,9 @@ void SceneManager::resumePrevScene()
 	this->currentScene->render();
 }
 
-std::shared_ptr<GameSelectScene> SceneManager::getGameSelectScene()
+std::shared_ptr<Scene> SceneManager::getDefaultScene()
 {
-	return this->gameSelectScene;
+	return this->defaultScene;
 }
 
 std::shared_ptr<Scene> SceneManager::getCurrentScene()

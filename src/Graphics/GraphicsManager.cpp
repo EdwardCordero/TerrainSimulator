@@ -78,6 +78,7 @@ bool GraphicsManager::initialize(std::shared_ptr<SettingsManager> settingsManage
 		return false;
 	}	
 
+	//SDL_SetWindowFullscreen(this->gWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
 	this->loadTexturePaths();
 	return true;
 }
@@ -94,7 +95,7 @@ bool GraphicsManager::initializeWindow()
 	int screenWidth = usableBounds.w;
 	int screenHeight = usableBounds.h;
 	
-	this->gWindow = SDL_CreateWindow("Paradox", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_MAXIMIZED);
+	this->gWindow = SDL_CreateWindow("Paradox", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
 	if (gWindow == NULL)
 	{
 		std::cout << std::format("Window could not be created! SDL_Erorr: {}", SDL_GetError()) << std::endl;
@@ -245,6 +246,15 @@ SDL_Rect GraphicsManager::getScreenRect()
 	return this->currentScreenRect;
 }
 
+SDL_Rect GraphicsManager::getWindowRect()
+{
+	int width;
+	int height;
+	SDL_GetWindowSize(gWindow, &width, &height);
+
+	return {0,0,width, height};
+}
+
 std::shared_ptr<Texture> GraphicsManager::getCachedTexture(std::string textureName)
 {
 	return this->cachedTextures[textureName];
@@ -299,6 +309,34 @@ void GraphicsManager::renderFillRect(const SDL_Rect* rect, SDL_Color fillColor)
 	SDL_SetRenderDrawColor(this->gRenderer, fillColor.r, fillColor.g, fillColor.b, fillColor.a);
 	SDL_RenderFillRect(this->gRenderer, rect);
 	return;
+}
+
+void GraphicsManager::renderFillCircle(std::shared_ptr<Circle> circle)
+{
+	int radius = circle->radius;
+	int centerX = circle->centerX;
+	int centerY = circle->centerY;
+	std::vector<SDL_Point> points;
+	for(int y = radius * -1; y <= radius; y++)
+	{
+		for(int x = radius * -1; x <= radius; x++)
+		{
+			if(x*x + y*y <= radius*radius)
+			{
+				// SDL_RenderDrawPoint(gRenderer,
+				// 					centerX + x,
+				// 					centerY + y);
+				SDL_Point point = {centerX + x, centerY + y};
+				points.push_back(point);
+			}
+		}
+	}
+	SDL_RenderDrawPoints(gRenderer, points.data(), points.size());
+}
+
+void GraphicsManager::renderDrawPoints(SDL_Point* points, int size)
+{
+	SDL_RenderDrawPoints(this->gRenderer, points, size);
 }
 
 void GraphicsManager::scaleRect(SDL_FRect& renderQuad)

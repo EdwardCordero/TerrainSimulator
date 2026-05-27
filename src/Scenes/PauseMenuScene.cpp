@@ -99,30 +99,6 @@ void PauseMenuScene::initializeRects()
 
 void PauseMenuScene::updateRects()
 {
-	/*this->screenWidth = this->graphicsManager->getScreenRect().w;
-	this->screenHeight = this->graphicsManager->getScreenRect().h;
-
-	this->graphicsManager->scaleRect(this->menuRect);
-
-	this->graphicsManager->scaleRect(this->menuOptionRect);
-	
-	this->graphicsManager->scaleRect(menuTitleRect);
-	this->menuTextObject->setBoxRect(menuTitleRect);
-
-	this->graphicsManager->scaleRect(optionsRect);
-	this->optionsTextObject->setBoxRect(optionsRect);
-
-	this->graphicsManager->scaleRect(gameSelectRect);
-	this->gameSelectTextObject->setBoxRect(gameSelectRect);
-
-	this->graphicsManager->scaleRect(endGameRect);
-	this->endGameTextObject->setBoxRect(endGameRect);
-
-	this->graphicsManager->scaleRect(quitRect);
-	this->quitTextObject->setBoxRect(this->quitRect);
-
-	this->graphicsManager->scaleRect(resumeRect);
-	this->resumeTextObject->setBoxRect(this->resumeRect);*/
 	this->initializeRects();
 }
 
@@ -144,12 +120,13 @@ void PauseMenuScene::handleEvents(SDL_Event& event)
 		{
 			//this->sceneManager->disableScene(this->sceneName);
 			this->sceneManager->unpause();
-			this->sceneManager->changeScene(this->sceneManager->getGameSelectScene());
+			this->sceneManager->changeScene(this->sceneManager->getDefaultScene());
 		}
 		if (this->endGameTextObject->isHoveredOver(x, y) && event.type == SDL_MOUSEBUTTONUP)
 		{
 			std::cout << "ending game" << std::endl;
-			this->sceneManager->changeScene(this->sceneManager->getGameSelectScene());
+			this->sceneManager->changeScene(this->sceneManager->getDefaultScene());
+			this->sceneManager->unpause();
 		}
 		if (this->quitTextObject->isHoveredOver(x, y) && event.type == SDL_MOUSEBUTTONUP)
 		{
